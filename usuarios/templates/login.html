@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block titulo %}Iniciar sesión{% endblock %}
+
+{% block fondo %}{% include "_fondo.html" %}{% endblock %}
+
+{% block contenido %}
+<div class="flex justify-center pt-10">
+  <div class="w-full max-w-md bg-white rounded-xl shadow-md p-8">
+    <h1 class="text-2xl font-bold text-slate-800 mb-1">Iniciar sesión</h1>
+    <p class="text-slate-500 mb-6">Entra a tu cuenta para continuar.</p>
+
+    <!-- Mostramos errores generales del formulario si los hay -->
+    {% if form.non_field_errors %}
+      <div class="mb-4 rounded-lg bg-red-100 text-red-700 text-sm p-3">
+        {% for error in form.non_field_errors %}{{ error }}{% endfor %}
+      </div>
+    {% endif %}
+
+    <form method="post" novalidate class="space-y-4">
+      {% csrf_token %}
+
+      <!-- Campo para el correo electrónico -->
+      <div>
+        <label for="correo" class="block text-sm font-medium text-slate-700 mb-1">Correo</label>
+        <input id="correo" name="correo" type="email" placeholder="laura@correo.com"
+          value="{{ form.correo.value|default_if_none:'' }}"
+          class="w-full rounded-lg border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-500 {% if form.correo.errors %}border-red-500{% else %}border-slate-300{% endif %}" />
+        {% for error in form.correo.errors %}
+          <p class="text-sm text-red-600 mt-1">{{ error }}</p>
+        {% endfor %}
+      </div>
+
+      <!-- Campo para la contraseña -->
+      <div>
+        <label for="password" class="block text-sm font-medium text-slate-700 mb-1">Contraseña</label>
+        <input id="password" name="password" type="password"
+          class="w-full rounded-lg border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-500 {% if form.password.errors %}border-red-500{% else %}border-slate-300{% endif %}" />
+        {% for error in form.password.errors %}
+          <p class="text-sm text-red-600 mt-1">{{ error }}</p>
+        {% endfor %}
+      </div>
+
+      <!-- Botón para enviar el formulario -->
+      <button type="submit"
+        class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-lg py-2.5 transition-colors">
+        Entrar
+      </button>
+
+      <!-- Enlace por si el usuario aún no está registrado -->
+      <p class="text-sm text-slate-500 text-center">
+        ¿Aún no tienes cuenta?
+        <a href="{% url 'registro' %}" class="text-emerald-700 font-medium hover:underline">Regístrate</a>
+      </p>
+    </form>
+  </div>
+</div>
+{% endblock %}

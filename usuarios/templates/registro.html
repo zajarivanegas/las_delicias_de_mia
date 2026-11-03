@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% block titulo %}Registro de cliente{% endblock %}
+
+{% block fondo %}{% include "_fondo.html" %}{% endblock %}
+
+{% block contenido %}
+<div class="flex justify-center pt-6">
+  <div class="w-full max-w-md bg-white rounded-xl shadow-md p-8">
+    <h1 class="text-2xl font-bold text-slate-800 mb-1">Crear cuenta</h1>
+    <p class="text-slate-500 mb-6">Regístrate para hacer tus pedidos.</p>
+
+    <form method="post" novalidate class="space-y-4">
+      {% csrf_token %}
+
+      <!-- Campo para el nombre -->
+      <div>
+        <label for="nombre" class="block text-sm font-medium text-slate-700 mb-1">Nombre</label>
+        <input id="nombre" name="nombre" type="text" placeholder="Ej: Laura Gómez"
+          value="{{ form.nombre.value|default_if_none:'' }}"
+          class="w-full rounded-lg border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-500 {% if form.nombre.errors %}border-red-500{% else %}border-slate-300{% endif %}" />
+        {% for error in form.nombre.errors %}
+          <p class="text-sm text-red-600 mt-1">{{ error }}</p>
+        {% endfor %}
+      </div>
+
+      <!-- Campo para el correo electrónico -->
+      <div>
+        <label for="correo" class="block text-sm font-medium text-slate-700 mb-1">Correo</label>
+        <input id="correo" name="correo" type="email" placeholder="laura@correo.com"
+          value="{{ form.correo.value|default_if_none:'' }}"
+          class="w-full rounded-lg border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-500 {% if form.correo.errors %}border-red-500{% else %}border-slate-300{% endif %}" />
+        {% for error in form.correo.errors %}
+          <p class="text-sm text-red-600 mt-1">{{ error }}</p>
+        {% endfor %}
+      </div>
+
+      <!-- Campo para el teléfono -->
+      <div>
+        <label for="telefono" class="block text-sm font-medium text-slate-700 mb-1">Teléfono</label>
+        <input id="telefono" name="telefono" type="tel" placeholder="3001234567"
+          value="{{ form.telefono.value|default_if_none:'' }}"
+          class="w-full rounded-lg border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-500 {% if form.telefono.errors %}border-red-500{% else %}border-slate-300{% endif %}" />
+        {% for error in form.telefono.errors %}
+          <p class="text-sm text-red-600 mt-1">{{ error }}</p>
+        {% endfor %}
+      </div>
+
+      <!-- Campo para la contraseña -->
+      <div>
+        <label for="password" class="block text-sm font-medium text-slate-700 mb-1">Contraseña (máximo 8 caracteres)</label>
+        <input id="password" name="password" type="password" maxlength="8"
+          class="w-full rounded-lg border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-500 {% if form.password.errors %}border-red-500{% else %}border-slate-300{% endif %}" />
+        {% for error in form.password.errors %}
+          <p class="text-sm text-red-600 mt-1">{{ error }}</p>
+        {% endfor %}
+      </div>
+
+      <!-- Campo para confirmar la contraseña -->
+      <div>
+        <label for="confirmar" class="block text-sm font-medium text-slate-700 mb-1">Confirmar contraseña</label>
+        <input id="confirmar" name="confirmar" type="password" maxlength="8"
+          class="w-full rounded-lg border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-500 {% if form.confirmar.errors %}border-red-500{% else %}border-slate-300{% endif %}" />
+        {% for error in form.confirmar.errors %}
+          <p class="text-sm text-red-600 mt-1">{{ error }}</p>
+        {% endfor %}
+      </div>
+
+      <!-- Botón de registro -->
+      <button type="submit"
+        class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-lg py-2.5 transition-colors">
+        Registrarme
+      </button>
+
+      <!-- Enlace para ir al login si ya tiene cuenta -->
+      <p class="text-sm text-slate-500 text-center">
+        ¿Ya tienes cuenta?
+        <a href="{% url 'login' %}" class="text-emerald-700 font-medium hover:underline">Inicia sesión</a>
+      </p>
+    </form>
+  </div>
+</div>
+{% endblock %}
